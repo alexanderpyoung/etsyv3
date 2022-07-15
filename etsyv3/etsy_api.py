@@ -8,9 +8,10 @@ from etsyv3.models import ListingFile, ListingProperty, Request, UpdateListingRe
 from etsyv3.models.listing_request import (
     CreateDraftListingRequest,
     UpdateListingInventoryRequest,
+    UpdateVariationImagesRequest,
 )
 
-ETSY_API_BASEURL = "{ETSY_API_BASEURL}"
+ETSY_API_BASEURL = "https://openapi.etsy.com/v3/application/"
 
 
 class ExpiredToken(Exception):
@@ -385,8 +386,18 @@ class EtsyAPI:
         )
         return self._issue_request(uri)
 
-    def update_variation_images(self):
-        raise NotImplementedError
+    def update_variation_images(
+        self,
+        shop_id: int,
+        listing_id: int,
+        variation_images: UpdateVariationImagesRequest,
+    ):
+        uri = (
+            f"{ETSY_API_BASEURL}/shops/{shop_id}/listings/{listing_id}/variation-images"
+        )
+        return self._issue_request(
+            uri, method=Method.POST, request_payload=variation_images
+        )
 
     def ping(self):
         uri = f"{ETSY_API_BASEURL}/openapi-ping"
@@ -491,9 +502,7 @@ class EtsyAPI:
         raise NotImplementedError
 
     def get_shop_shipping_profiles(self, shop_id: int):
-        uri = (
-            f"{ETSY_API_BASEURL}/shops/{shop_id}/shipping-profiles"
-        )
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/shipping-profiles"
         return self._issue_request(uri)
 
     def delete_shop_shipping_profile(self, shop_id: int, shipping_profile_id: int):

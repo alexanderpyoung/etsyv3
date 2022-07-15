@@ -40,7 +40,7 @@
 | GetListingTranslation                               | ✔️                          |
 | UpdateListingTranslation                            | ❌                           |
 | GetListingVariationImages                           | ✔️                          |
-| UpdateVariationImages                               | ❌                           |
+| UpdateVariationImages                               | ✔️                          |
 | Ping                                                | ✔️                          |
 | TokenScopes                                         | ✔️                          |
 | GetShopPaymentAccountLedgerEntry                    | ✔️                          |

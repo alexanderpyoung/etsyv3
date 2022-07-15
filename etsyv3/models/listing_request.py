@@ -262,3 +262,22 @@ class UpdateListingInventoryRequest(Request):
         return UpdateListingInventoryRequest(
             products, price_on_property, quantity_on_property, sku_on_property
         )
+
+
+class UpdateVariationImagesRequest(Request):
+    nullable = []
+    mandatory = []
+
+    def __init__(self, variation_images: List[Dict[str, Any]]):
+        self.variation_images = variation_images
+        super().__init__(
+            nullable=UpdateVariationImagesRequest.nullable,
+            mandatory=UpdateVariationImagesRequest.mandatory,
+        )
+
+    @staticmethod
+    def generate_request_from_variation_images_response(response):
+        variation_images = response["results"]
+        for variation_image in variation_images:
+            variation_image.pop("value", None)
+        return UpdateVariationImagesRequest(variation_images)

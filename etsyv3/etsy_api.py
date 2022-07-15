@@ -10,7 +10,7 @@ from etsyv3.models.listing_request import (
     UpdateListingInventoryRequest,
 )
 
-ETSY_API_BASEURL = "https://openapi.etsy.com/v3/application"
+ETSY_API_BASEURL = "{ETSY_API_BASEURL}"
 
 
 class ExpiredToken(Exception):
@@ -129,7 +129,7 @@ class EtsyAPI:
                 return_val = self.session.put(uri, json=request_payload.get_dict())
             elif method == method.POST:
                 return_val = self.session.post(uri, json=request_payload.get_dict())
-            elif method == method.DELETE:
+            else:
                 return_val = self.session.delete(uri)
             if return_val.status_code == 400:
                 raise BadRequest(return_val.json())
@@ -336,11 +336,13 @@ class EtsyAPI:
     def delete_listing_image(self):
         raise NotImplementedError
 
-    def get_listing_image(self):
-        raise NotImplementedError
+    def get_listing_image(self, listing_id: int, listing_image_id: int):
+        uri = f"{ETSY_API_BASEURL}/listings/{listing_id}/images/{listing_image_id}"
+        return self._issue_request(uri)
 
-    def get_listing_images(self):
-        raise NotImplementedError
+    def get_listing_images(self, listing_id: int):
+        uri = f"{ETSY_API_BASEURL}/listings/{listing_id}/images"
+        return self._issue_request(uri)
 
     def upload_listing_image(self):
         raise NotImplementedError
@@ -355,53 +357,85 @@ class EtsyAPI:
         uri = f"{ETSY_API_BASEURL}/listings/{listing_id}/inventory"
         return self._issue_request(uri, Method.PUT, listing_inventory)
 
-    def get_listing_offering(self):
-        raise NotImplementedError
+    def get_listing_offering(
+        self, listing_id: int, product_id: int, product_offering_id: int
+    ):
+        uri = f"{ETSY_API_BASEURL}/listings/{listing_id}/products/{product_id}/offerings/{product_offering_id}"
+        return self._issue_request(uri)
 
-    def get_listing_product(self):
-        raise NotImplementedError
+    def get_listing_product(self, listing_id: int, product_id: int):
+        uri = (
+            f"{ETSY_API_BASEURL}/listings/{listing_id}/inventory/products/{product_id}"
+        )
+        return self._issue_request(uri)
 
     def create_listing_translation(self):
         raise NotImplementedError
 
-    def get_listing_translation(self):
-        raise NotImplementedError
+    def get_listing_translation(self, shop_id: int, listing_id: int, language: str):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/listings/{listing_id}/translations/{language}"
+        return self._issue_request(uri)
 
     def update_listing_translation(self):
         raise NotImplementedError
 
-    def get_listing_variation_images(self):
-        raise NotImplementedError
+    def get_listing_variation_images(self, shop_id: int, listing_id: int):
+        uri = (
+            f"{ETSY_API_BASEURL}/shops/{shop_id}/listings/{listing_id}/variation-images"
+        )
+        return self._issue_request(uri)
 
     def update_variation_images(self):
         raise NotImplementedError
 
-    def user_info(self):
-        raise NotImplementedError
-
     def ping(self):
-        raise NotImplementedError
+        uri = f"{ETSY_API_BASEURL}/openapi-ping"
+        return self._issue_request(uri)
 
     def token_scopes(self):
-        raise NotImplementedError
+        uri = f"{ETSY_API_BASEURL}/scopes"
+        return self._issue_request(uri)
 
-    def get_shop_payment_account_ledger_entry(self):
-        raise NotImplementedError
+    def get_shop_payment_account_ledger_entry(self, shop_id: int, ledger_entry_id: int):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/payment-account/ledger-entries/{ledger_entry_id}"
+        return self._issue_request(uri)
 
-    def get_shop_payment_account_ledger_entries(self):
-        raise NotImplementedError
+    def get_shop_payment_account_ledger_entries(
+        self,
+        shop_id: int,
+        min_created: int,
+        max_created: int,
+        limit: int = None,
+        offset: int = None,
+    ):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/payment-account/ledger-entries"
+        kwargs = {
+            "min_created": min_created,
+            "max_created": max_created,
+            "limit": limit,
+            "offset": offset,
+        }
+        return self._issue_request(uri, **kwargs)
 
-    def get_payment_account_ledger_entry_payments(self):
-        raise NotImplementedError
+    def get_payment_account_ledger_entry_payments(
+        self, shop_id: int, ledger_entry_ids: List[int]
+    ):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/payment-account/ledger-entries/payments"
+        kwargs = {"ledger_entry_ids": ledger_entry_ids}
+        return self._issue_request(uri, **kwargs)
 
-    def get_shop_payment_by_receipt_id(self):
-        raise NotImplementedError
+    def get_shop_payment_by_receipt_id(self, shop_id: int, receipt_id: int):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/receipts/{receipt_id}/payments"
+        return self._issue_request(uri)
 
-    def get_payments(self):
-        raise NotImplementedError
+    def get_payments(self, shop_id: int, payment_ids: List[int]):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/payments"
+        kwargs = {"payment_ids": payment_ids}
+        return self._issue_request(uri, **kwargs)
 
-    def get_shop_receipt(self):
-        raise NotImplementedError
+    def get_shop_receipt(self, shop_id: int, receipt_id: int):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/receipts/{receipt_id}"
+        return self._issue_request(uri)
 
     def update_shop_receipt(self):
         raise NotImplementedError
@@ -414,26 +448,44 @@ class EtsyAPI:
     def create_receipt_shipment(self):
         raise NotImplementedError
 
-    def get_shop_receipt_transactions_by_listing(self):
-        raise NotImplementedError
+    def get_shop_receipt_transactions_by_listing(
+        self, shop_id: int, listing_id: int, limit: int = None, offset: int = None
+    ):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/listings/{listing_id}/transactions"
+        kwargs = {"limit": limit, "offset": offset}
+        return self._issue_request(uri, **kwargs)
 
-    def get_shop_receipt_transactions_by_receipt(self):
-        raise NotImplementedError
+    def get_shop_receipt_transactions_by_receipt(self, shop_id: int, receipt_id: int):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/receipts/{receipt_id}/transactions"
+        return self._issue_request(uri)
 
-    def get_shop_receipt_transaction(self):
-        raise NotImplementedError
+    def get_shop_receipt_transaction(self, shop_id: int, transaction_id: int):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/transactions/{transaction_id}"
+        return self._issue_request(uri)
 
-    def get_shop_receipt_transactions_by_shop(self):
-        raise NotImplementedError
+    def get_shop_receipt_transactions_by_shop(
+        self, shop_id: int, limit: int = None, offset: int = None
+    ):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/transactions"
+        kwargs = {"limit": limit, "offset": offset}
+        return self._issue_request(uri, **kwargs)
 
-    def get_reviews_by_listing(self):
-        raise NotImplementedError
+    def get_reviews_by_listing(
+        self, listing_id: int, limit: int = None, offset: int = None
+    ):
+        uri = f"{ETSY_API_BASEURL}/listings/{listing_id}/reviews"
+        kwargs = {"limit": limit, "offset": offset}
+        return self._issue_request(uri, **kwargs)
 
-    def get_reviews_by_shop(self):
-        raise NotImplementedError
+    def get_reviews_by_shop(self, shop_id: int, limit: int = None, offset: int = None):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/reviews"
+        kwargs = {"limit": limit, "offset": offset}
+        return self._issue_request(uri, **kwargs)
 
-    def get_shipping_carriers(self):
-        raise NotImplementedError
+    def get_shipping_carriers(self, origin_country_iso: str):
+        uri = f"{ETSY_API_BASEURL}/shipping-carriers"
+        kwargs = {"origin_country_iso": origin_country_iso}
+        return self._issue_request(uri, **kwargs)
 
     def create_shop_shipping_profile(self):
         raise NotImplementedError

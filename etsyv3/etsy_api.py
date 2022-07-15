@@ -492,16 +492,16 @@ class EtsyAPI:
 
     def get_shop_shipping_profiles(self, shop_id: int):
         uri = (
-            f"https://openapi.etsy.com/v3/application/shops/{shop_id}/shipping-profiles"
+            f"{ETSY_API_BASEURL}/shops/{shop_id}/shipping-profiles"
         )
         return self._issue_request(uri)
 
     def delete_shop_shipping_profile(self, shop_id: int, shipping_profile_id: int):
-        uri = f"https://openapi.etsy.com/v3/application/shops/{shop_id}/shipping-profiles/{shipping_profile_id}"
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/shipping-profiles/{shipping_profile_id}"
         return self._issue_request(uri, method=Method.DELETE)
 
     def get_shop_shipping_profile(self, shop_id: int, shipping_profile_id: int):
-        uri = f"https://openapi.etsy.com/v3/application/shops/{shop_id}/shipping-profiles/{shipping_profile_id}"
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/shipping-profiles/{shipping_profile_id}"
         return self._issue_request(uri)
 
     def update_shop_shipping_profile(self):
@@ -517,7 +517,7 @@ class EtsyAPI:
         limit: int = None,
         offset: int = None,
     ):
-        uri = f"https://openapi.etsy.com/v3/application/shops/{shop_id}/shipping-profiles/{shipping_profile_id}/destinations"
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/shipping-profiles/{shipping_profile_id}/destinations"
         kwargs = {"limit": limit, "offset": offset}
         return self._issue_request(uri, **kwargs)
 
@@ -527,7 +527,7 @@ class EtsyAPI:
         shipping_profile_id: int,
         shipping_profile_destination_id: int,
     ):
-        uri = f"https://openapi.etsy.com/v3/application/shops/{shop_id}/shipping-profiles/{shipping_profile_id}/destinations/{shipping_profile_destination_id}"
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/shipping-profiles/{shipping_profile_id}/destinations/{shipping_profile_destination_id}"
         return self._issue_request(uri, method=Method.DELETE)
 
     def update_shop_shipping_profile_destination(self):
@@ -539,51 +539,51 @@ class EtsyAPI:
     def get_shop_shipping_profile_upgrades(
         self, shop_id: int, shipping_profile_id: int
     ):
-        uri = f"https://openapi.etsy.com/v3/application/shops/{shop_id}/shipping-profiles/{shipping_profile_id}/upgrades"
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/shipping-profiles/{shipping_profile_id}/upgrades"
         return self._issue_request(uri)
 
     def delete_shop_shipping_profile_upgrade(
         self, shop_id: int, shipping_profile_id: int, upgrade_id: int
     ):
-        uri = f"https://openapi.etsy.com/v3/application/shops/{shop_id}/shipping-profiles/{shipping_profile_id}/upgrades/{upgrade_id}"
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/shipping-profiles/{shipping_profile_id}/upgrades/{upgrade_id}"
         return self._issue_request(uri, method=Method.DELETE)
 
     def update_shop_shipping_profile_upgrade(self):
         raise NotImplementedError
 
     def get_shop(self, shop_id: int):
-        uri = f"https://openapi.etsy.com/v3/application/shops/{shop_id}"
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}"
         return self._issue_request(uri)
 
     def update_shop(self):
         raise NotImplementedError
 
     def get_shop_by_owner_user_id(self, user_id: int):
-        uri = f"https://openapi.etsy.com/v3/application/users/{user_id}/shops"
+        uri = f"{ETSY_API_BASEURL}/users/{user_id}/shops"
         return self._issue_request(uri)
 
     def find_shops(self, shop_name: str, limit: int = None, offset: int = None):
-        uri = f"https://openapi.etsy.com/v3/application/shops"
+        uri = f"{ETSY_API_BASEURL}/shops"
         kwargs = {"shop_name": shop_name, "limit": limit, "offset": offset}
         return self._issue_request(uri, **kwargs)
 
     def get_shop_production_partners(self, shop_id: int):
-        uri = f"https://openapi.etsy.com/v3/application/shops/{shop_id}/production-partners"
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/production-partners"
         return self._issue_request(uri)
 
     def create_shop_section(self):
         raise NotImplementedError
 
     def get_shop_sections(self, shop_id: int):
-        uri = f"https://openapi.etsy.com/v3/application/shops/{shop_id}/sections"
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/sections"
         return self._issue_request(uri)
 
     def delete_shop_section(self, shop_id: int, shop_section_id: int):
-        uri = f"https://openapi.etsy.com/v3/application/shops/{shop_id}/sections/{shop_section_id}"
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/sections/{shop_section_id}"
         return self._issue_request(uri, method=Method.DELETE)
 
     def get_shop_section(self, shop_id: int, shop_section_id: int):
-        uri = f"https://openapi.etsy.com/v3/application/shops/{shop_id}/sections/{shop_section_id}"
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/sections/{shop_section_id}"
         return self._issue_request(uri)
 
     def update_shop_section(self):
@@ -604,7 +604,7 @@ class EtsyAPI:
         raise NotImplementedError
 
     def get_user_addresses(self, limit: int = None, offset: int = None):
-        uri = f"https://openapi.etsy.com/v3/application/user/addresses"
+        uri = f"{ETSY_API_BASEURL}/user/addresses"
         kwargs = {"limit": limit, "offset": offset}
         return self._issue_request(uri, **kwargs)
 

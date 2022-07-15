@@ -1,4 +1,7 @@
 # Etsyv3 
+## What it is
+
+Python 3 client for the [Etsy Open API v3](https://developer.etsy.com/documentation/reference).
 
 ## Implementation details
 

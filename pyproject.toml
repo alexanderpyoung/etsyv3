@@ -32,7 +32,7 @@ test = [
 ]
 
 [tool.setuptools]
-packages = ["etsyv3"]
+packages = ["etsyv3", "etsyv3.models"]
 
 [tool.isort]
 src_paths = ["etsyv3", "tests"]

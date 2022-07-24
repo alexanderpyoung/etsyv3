@@ -334,8 +334,11 @@ class EtsyAPI:
         uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/listings/{listing_id}/files"
         raise NotImplementedError
 
-    def delete_listing_image(self):
-        raise NotImplementedError
+    def delete_listing_image(
+        self, shop_id: int, listing_id: int, listing_image_id: int
+    ):
+        uri = f"{ETSY_API_BASEURL}/shops/{shop_id}/listings/{listing_id}/images/{listing_image_id}"
+        return self._issue_request(uri, method=Method.DELETE)
 
     def get_listing_image(self, listing_id: int, listing_image_id: int):
         uri = f"{ETSY_API_BASEURL}/listings/{listing_id}/images/{listing_image_id}"

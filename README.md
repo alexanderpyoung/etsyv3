@@ -31,7 +31,7 @@ Python 3 client for the [Etsy Open API v3](https://developer.etsy.com/documentat
 | GetListingFile                                      | ✔️                          |
 | GetAllListingFiles                                  | ✔️                          |
 | UploadListingFile                                   | ❌                           |
-| DeleteListingImage                                  | ❌                           |
+| DeleteListingImage                                  | ✔️                          |
 | GetListingImage                                     | ✔️                          |
 | GetListingImages                                    | ✔️                          |
 | UploadListingImage                                  | ❌                           |
@@ -65,7 +65,7 @@ Python 3 client for the [Etsy Open API v3](https://developer.etsy.com/documentat
 | CreateShopShippingProfile                           | ❌                           |
 | GetShopShippingProfiles                             | ✔️                          |
 | DeleteShopShippingProfile                           | ✔️                          |
-| GetShopShippingProfile                              | ❌                           |
+| GetShopShippingProfile                              | ✔️                          |
 | UpdateShopShippingProfile                           | ❌                           |
 | CreateShopShippingProfileDestination                | ❌                           |
 | GetShopShippingProfileDestinationsByShippingProfile | ✔️                          |

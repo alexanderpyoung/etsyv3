@@ -9,7 +9,7 @@ authors = [
     { name = "Alexander Teo-Young", email = "alexander.p.young@gmail.com" },
 ]
 description = "A package to support the Etsy Open API v3"
-readme = { file = "README.md" }
+readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.8"
 classifiers = [
